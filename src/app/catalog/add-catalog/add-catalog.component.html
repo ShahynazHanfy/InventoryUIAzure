@@ -1,0 +1,127 @@
+<div class="container">
+    <h1>Add Item</h1>
+    <div class="row">
+        <div class="col-md-6">
+            <!-- <span class="p-inputgroup-addon col-md-2"><i class="pi pi-user"></i></span> -->
+            <input type="text" style="margin: 10px;" [(ngModel)]="item.itemName" required minlength="3" name="Code"
+                id="Codes" class="form-control col" placeholder="item Name" aria-describedby="helpId">
+        </div>
+        <div class="col-md-6">
+            <!-- <span class="p-inputgroup-addon col-md-2"><i class="pi pi-user"></i></span> -->
+            <input type="text" style="margin: 10px;" [(ngModel)]="item.serialNumber" required minlength="3" name="Code"
+                id="Codes" class="form-control col" placeholder="SerialNumber" aria-describedby="helpId">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <!-- <span class="p-inputgroup-addon col-md-2"><i class="pi pi-user"></i></span> -->
+            <input type="text" style="margin: 10px;" [(ngModel)]="item.price" required minlength="3" name="Code"
+                id="Codes" class="form-control col" placeholder="Price" aria-describedby="helpId">
+        </div>
+        <div class="col-md-6">
+            <!-- <span class="p-inputgroup-addon col-md-2"><i class="pi pi-user"></i></span> -->
+            <input type="text" style="margin: 10px;" [(ngModel)]="item.brand" required minlength="3" name="Code"
+                id="Codes" class="form-control col" placeholder="Brand" aria-describedby="helpId">
+        </div>
+    </div>
+    <!-- <div class="row container"> -->
+
+
+    <div class="mb-3">
+        <!-- <span class="p-inputgroup-addon col-md-2"><i class="pi pi-user"></i></span> -->
+        <input type="text" style="margin: 10px;" [(ngModel)]="item.bar_code" required minlength="3" name="Code"
+            id="Codes" class="form-control col" placeholder="Bar_code" aria-describedby="helpId">
+    </div>
+    <div class=" col-md-3 mb-3" style="margin-top: 10px;">
+        <p-dropdown [options]="subGroups" [style]="{width: '70vw'}" [(ngModel)]="item.subGroupId"
+            placeholder="Select Group" optionLabel="subGroupName" optionValue="id" (onChange)="onChange($event)">
+        </p-dropdown>
+    </div>
+    <!-- </div> -->
+    <label for="Upload" style="font-weight: bold;">Upload Image</label><br>
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="inputGroupFileAddon01" [translate]="'Tracker.Upload'">Upload</span>
+        </div>
+        <div class="custom-file">
+            <input accept="image/*" (change)="onFileSelected($event.target.files)" type="file" class="custom-file-input"
+                id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
+            <label class="custom-file-label" for="inputGroupFile01"><span style="color: red;">{{oldName2}}</span></label>
+        </div>
+
+    </div>
+    <textarea id="description" [(ngModel)]="item.description" placeholder="Add any extra data if you want"
+        pInputTextarea rows="5" cols="85"></textarea>
+    <br>
+    <div>
+        <button class="btn btn-info" (click)="InsertGroup()" style="margin-top: 20px;" [disabled]="Itemid!=0">Save
+            Changes</button>
+        <button class="btn btn-warning" [disabled]="Itemid==0" style="float: right;margin: 20px;"
+            (click)="displayBasic=true">Upload Documents</button>
+    </div>
+    <p-dialog [(visible)]="displayBasic" [style]="{width: '80vw'}" [baseZIndex]="10000">
+        <h4>Upload Documents</h4>
+        <div class="row container">
+            <div class="col">
+                <div class="p-col-12 p-md-4">
+                    <div class="p-inputgroup">
+                        <span class="p-inputgroup-addon"><i class="pi pi-user"></i></span>
+                        <input type="text" pInputText placeholder="Document Name" [(ngModel)]="docItem.documentName">
+                    </div>
+                </div>
+
+
+                <div class="p-col-12">
+                    <div class="row" style="margin-top: 30px;">
+                        <div class="col">
+                            <input type="file" #file placeholder="Choose file" (change)="uploadFile(file.files)"
+                                style="display:none;">
+                            <button type="button" class="btn btn-success" (click)="file.click()">Upload
+                                File</button>
+                        </div>
+                        <div class="col">
+                            <button class="btn btn-info" style="float: right;" (click)="Savedoctolist()">Save To
+                                List</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="col">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Document Name</th>
+                            <th>File Name</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr *ngFor="let i of lstoddocproj">
+
+                            <td>{{i.documentName}}</td>
+                            <td>{{i.fileName}}</td>
+                        </tr>
+                        <tr>
+
+                        </tr>
+                        <tr *ngIf="lstoddocproj.length == 0">
+                            <td colspan="4" style="color: rgb(102, 97, 23);">No Documents found.</td>
+                        </tr>
+                    </tbody>
+
+                </table>
+
+                <button class="btn btn-warning" style="margin-top: 7px;" [disabled]="lstoddocproj.length == 0"
+                    (click)="SaveDocuentToDB()" routerLink="/home/catalog">Add
+                    List</button>
+            </div>
+        </div>
+    </p-dialog>
+
+</div>
+
+<ng-template pTemplate="footer">
+    <p-button icon="pi pi-times" (click)="displayBasic=false" label="Ok"></p-button>
+</ng-template>

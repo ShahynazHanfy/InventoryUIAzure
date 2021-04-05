@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/fe46a404-05da-48f3-9bf0-77dc0004ebd2/resourceGroups/Al-Mostakbal/providers/Microsoft.Web/sites/InventoryClientSide",
+    "appService.deploySubpath": "dist"
+}

@@ -1,0 +1,143 @@
+<div class="container">
+    <p-table #dt [value]="lstSubGroups" dataKey="id" [rows]="10" [showCurrentPageReport]="true"
+        [rowsPerPageOptions]="[10,25,50]" [loading]="loading" styleClass="p-datatable-customers" [paginator]="true"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [filterDelay]="0"
+        [globalFilterFields]="['SubGroupName','GroupName']">
+        <ng-template pTemplate="caption">
+            <div class="table-header row">
+                <div class="col-md-2">
+                    <button id="addDepBtn" (click)="changeStatus()" class="btn btn-outline-primary btn-md btn-block">
+                        <span class="pi pi-plus">Add SubGroup</span></button>
+                </div>
+                <div class="col-md-2" style="margin-left: 10px;">
+                    <button id="addDepBtn" routerLink="/home/catalog" class="btn btn-outline-primary btn-md btn-block">
+                        <span class="pi pi-plus">Show All Items</span></button>
+                </div>
+
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="color: black; font-size: large;" pSortableColumn="SubGroupName">SubGroupName<p-sortIcon
+                        field="SubGroupName">
+                    </p-sortIcon>
+                </th>
+                <th style="color: black; font-size: large;" pSortableColumn="GroupName">GroupName<p-sortIcon
+                        field="GroupName">
+                    </p-sortIcon>
+                </th>
+                <th></th>
+                <th style="color: black; font-size: large;">Edit</th>
+                <th style="color: black; font-size: large;">Delete</th>
+                <th>Activation</th>
+            </tr>
+            <tr>
+                <th>
+                    <input pInputText style="font-size: 12px; width: 140px;" type="text"
+                        (input)="dt.filter($event.target.value, 'subGroupName', 'startsWith')"
+                        placeholder="Search by subGroup" class="p-column-filter">
+                </th>
+                <th>
+                    <input pInputText style="font-size: 12px; width: 140px;" type="text"
+                        (input)="dt.filter($event.target.value, 'groupName', 'startsWith')"
+                        placeholder="Search by group" class="p-column-filter">
+                </th>
+                <th></th>
+                <th>
+                    <span style="font-size: 12px; width: 120px;" type="text"></span>
+                </th>
+                <th>
+                    <span style="font-size: 12px; width: 120px;" type="text"></span>
+                </th>
+                <th></th>
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-subG>
+            <tr>
+                <td>
+                    {{subG.subGroupName}}
+                </td>
+                <td>
+                    <span class="image-text">{{subG.groupName}}</span>
+                </td>
+                <td>
+
+                </td>
+                <td>
+                    <mat-icon color="warn" style="cursor: pointer;" [hidden]="!subG.activation" (click)="editModalDialog(subG)">launch
+                    </mat-icon>
+                </td>
+                <td>
+                    <mat-icon color="primary" style="cursor: pointer;" [hidden]="!subG.activation" pRipple class="ui-button-warning"
+                        (click)="confirm(subG.id)">delete_outline</mat-icon>
+                </td>
+                <td>
+                    <div class="p-field-checkbox">
+                        <!-- <input type="checkbox" (click)="Active(subG)" id="scales" name="scales" value="subG.activation"> -->
+                        <section class="example-section">
+                            <mat-checkbox class="example-margin" (change)="Active(subG)" name="sub" [(ngModel)]="subG.activation"></mat-checkbox>
+                        </section>
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="6">No Sub Categories found.</td>
+            </tr>
+        </ng-template>
+    </p-table>
+
+</div>
+
+<p-dialog [(visible)]="displayBasic" [style]="{width: '70vw'}" [baseZIndex]="10000"
+    [contentStyle]="{minHeight: '200px'}">
+    <h3>Add SubGroup</h3>
+    <br>
+    <div class="row container">
+        <span class="p-inputgroup-addon"><i class="pi pi-user col"></i></span>
+        <input type="text" #Code="ngModel" [class.is-valid]="Code.valid" [(ngModel)]="SubGroup.subGroupName" required
+            minlength="3" name="Code" id="Codes" class="form-control col-md-6" placeholder="Sub Group Name"
+            aria-describedby="helpId">
+        <div class="p-field col-md-3">
+            <!-- <label for="Project Type" class="labelMarginRight"></label><br> -->
+            <p-dropdown [options]="lstGroups" [(ngModel)]="SubGroup.groupId" placeholder="Select Group"
+                optionLabel="groupName" optionValue="id" (onChange)="onChange($event)">
+            </p-dropdown>
+        </div>
+        <br>
+    </div>
+    <ng-template pTemplate="footer">
+        <p-button icon="pi pi-times" (click)="displayBasic=false" (click)="InsertSubGroup()" label="Ok"></p-button>
+    </ng-template>
+</p-dialog>
+<p-dialog header="Edit Sub Group" [(visible)]="displayBasic2" [style]="{width: '50vw'}" [baseZIndex]="10000">
+    <div class="p-grid p-fluid">
+        <div class="rcol">
+            <div class="p-col-10 p-md-2">
+                <label>Sub Group</label>
+                <div class="p-inputgroup">
+                    <span class="p-inputgroup-addon"><i class="pi pi-user"></i></span>
+                    <input type="text" [(ngModel)]="SubGroupEdit.subGroupName" pInputText placeholder="subGroupName">
+                </div>
+            </div>
+            <div class="p-col-10 p-md-2" style="width: 100%;">
+                <label>Select Group</label>
+                <select [(ngModel)]="SubGroupEdit.groupId" name="groupName" class="form-control">Group
+                    <option value="" selected disabled hidden>Form</option>
+                    <option *ngFor="let the of lstGroups" value="{{the.id}}">{{the.groupName}}</option>
+                </select>
+            </div>
+        </div>
+
+
+    </div>
+    <ng-template pTemplate="footer">
+
+        <p-button icon="pi pi-check" label="Yes" (click)="EditSubGroup()" styleClass="p-button-text">
+        </p-button>
+        <p-button icon="pi pi-times" (click)="displayBasic2=false" label="No"></p-button>
+    </ng-template>
+</p-dialog>
+<p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>

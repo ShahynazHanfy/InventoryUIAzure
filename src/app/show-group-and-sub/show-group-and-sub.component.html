@@ -1,0 +1,126 @@
+
+<section class="magazine-section my-5 container">
+  <div class="row">
+    <div class="col-lg-6 col-md-12">
+      <div class="single-news mb-4">
+        <div class="news-data d-flex justify-content-between">
+          <!-- <a href="#!" class="light-blue-text">
+            <h6 class="font-weight-bold">
+              <mdb-icon fas icon="globe" class="pr-2"></mdb-icon>Group
+            </h6>
+          </a> -->
+        </div>
+        <div class="row">
+          <div class="col">
+            <h3 class="font-weight-bold dark-grey-text mb-3">
+              <a>List of Groups</a>
+            </h3>
+          </div>
+          <a class="light-blue-text" style="margin: 10px;" (click)="changeStatus()">
+            <h6 class="font-weight-bold">
+              <mdb-icon fas icon="globe" class="pr-2" pTooltip="Add Group" tooltipPosition="top"></mdb-icon>
+            </h6>
+          </a>
+          <!-- <button mdbBtn type="button" color="warning" rounded="true" mdbWavesEffect>Warning</button> -->
+        </div>
+
+      </div>
+
+      <div *ngFor="let i of groups">
+        <div class="single-news mb-4" style="cursor: pointer;">
+
+          <div class="row">
+            <div class="col-md-3">
+              <div class="view overlay rounded z-depth-1 mb-4">
+                <img class="img-fluid" src="../../assets/images/images.png" alt="Sample image">
+                <a>
+                  <div class="mask rgba-white-slight waves-light" mdbWavesEffect></div>
+                </a>
+              </div>
+            </div>
+            <div class="col-md-9" (click)="FilterByGroupId(i.id)" >
+              <p class="font-weight-bold dark-grey-text">{{i.groupName}}</p>
+              <div class="d-flex justify-content-between">
+                <!-- <div class="col-11 text-truncate pl-0 mb-3">
+                  <a href="#!" class="dark-grey-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit</a>
+                </div> -->
+                <a>
+                  <mdb-icon fas icon="angle-double-right"></mdb-icon>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="col-lg-6 col-md-12">
+      <div class="single-news mb-4">
+        <div class="news-data d-flex justify-content-between">
+
+        </div>
+        <div class="row">
+          <div class="col">
+            <h3 class="font-weight-bold dark-grey-text mb-3">
+              <a>List of SubGroups</a>
+            </h3>
+          </div>
+          <a href="#!" class="pink-text" style="cursor: pointer;margin-right: 90px;">
+            <h6 class="font-weight-bold">
+              <mdb-icon fas icon="volleyball-ball" class="pr-2" pTooltip="Add SubGroup" tooltipPosition="top"></mdb-icon>
+            </h6>
+          </a>
+          <!-- <button mdbBtn type="button" color="warning" rounded="true" mdbWavesEffect>Warning</button> -->
+        </div>
+
+      </div>
+
+
+      <!-- Start of list of groups -->
+      <div *ngFor="let i of FilteredSubgroups">
+        <div class="single-news mb-4">
+          <div class="row">
+            <div class="col-md-3">
+              <div class="view overlay rounded z-depth-1 mb-4">
+                <img class="img-fluid" src="../../assets/images/s.jfif" alt="Sample image">
+                <a>
+                  <div class="mask rgba-white-slight waves-light" mdbWavesEffect></div>
+                </a>
+              </div>
+            </div>
+            <div class="col-md-9">
+              <p class="font-weight-bold dark-grey-text" style="font-size: 20px;">{{i.subGroupName}}</p>
+              <div class="d-flex justify-content-between">
+                <!-- <div class="col-11 text-truncate pl-0 mb-3">
+                  <a href="#!" class="dark-grey-text">Itaque earum rerum hic tenetur a sapiente delectus</a>
+                </div> -->
+                <!-- <a>
+                <mdb-icon fas icon="angle-double-right"></mdb-icon>
+                <i class="fas fa-bible"></i>
+              </a> -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<p-dialog [(visible)]="displayBasic" [style]="{width: '70vw'}" [baseZIndex]="10000">
+  <h3>Add Group</h3>
+  <br>
+  <div class="row">
+      <!-- <input type="text" [(ngModel)]="Group.groupName" name="groupName"> -->
+      <span class="p-inputgroup-addon"><i class="pi pi-user col"></i></span>
+      <!-- <input type="text" placeholder="Group Name" class="form-control"
+      [(ngModel)]="Group.groupName"> -->
+      <input type="text" #Code="ngModel" [class.is-valid]="Code.valid" [(ngModel)]="Group.groupName" required
+          minlength="3" name="Code" id="Codes" class="form-control col" placeholder="Group Name"
+          aria-describedby="helpId">
+      <!-- <small [hidden]="Code.valid || Code.untouched" id="helpId" class="text-muted" [translate]="'Tracker.messege'"></small> -->
+
+  </div>
+  <ng-template pTemplate="footer">
+      <p-button icon="pi pi-times" (click)="displayBasic=false" (click)="InsertGroup()" label="Ok"></p-button>
+  </ng-template>
+</p-dialog>

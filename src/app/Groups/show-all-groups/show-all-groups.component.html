@@ -1,0 +1,128 @@
+<!-- <p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+<p-toast></p-toast>
+<p-toast position="top-left" key="tl"></p-toast>
+<p-toast position="top-center" key="tc"></p-toast>
+<p-toast position="bottom-center" key="bc"></p-toast> -->
+<!-- 
+<p-toast position="bottom-center" key="c" (onClose)="onReject()" [baseZIndex]="5000">
+    <ng-template let-message pTemplate="message">
+        <div class="p-flex p-flex-column" style="flex: 1">
+            <div class="p-text-center">
+                <i class="pi pi-exclamation-triangle" style="font-size: 3rem"></i>
+                <h4>{{message.summary}}</h4>
+                <p>{{message.detail}}</p>
+            </div>
+            <div class="p-grid p-fluid">
+                <div class="p-col-6">
+                    <button type="button" pButton (click)="onConfirm()" label="Yes" class="p-button-success"></button>
+                </div>
+                <div class="p-col-6">
+                    <button type="button" pButton (click)="onReject()" label="No" class="p-button-secondary"></button>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+</p-toast> -->
+
+
+
+<p-table class="container" #dt [value]="lstGroups" dataKey="id" [rows]="10" [showCurrentPageReport]="true"
+    [rowsPerPageOptions]="[10,25,50]" [loading]="loading" styleClass="p-datatable-customers" [paginator]="true"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [filterDelay]="0"
+    [globalFilterFields]="['groupName']">
+    <ng-template pTemplate="caption">
+        <div class="row">
+            <div class="table-header col-md-7">
+                <span class="p-input-icon-left">
+                    <h1 style="margin-bottom: 20px;color: black; font-size: 2em;color: #2674a8;">All Groups</h1>
+
+                    <!-- <i class="pi pi-search"></i> -->
+                    <!-- <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')"/> -->
+                </span>
+            </div>
+            <div class="col-md-2">
+                <button id="addDepBtn" (click)="changeStatus()" class="btn btn-outline-primary">
+                    <span class="pi pi-plus">Add Group</span></button>
+            </div>
+            <div class="col-md-3">
+                <button id="addDepBtn" routerLink="/home/subGroup" class="btn btn-outline-primary">
+                    <span class="pi pi-plus">Show All SubGroup</span></button>
+            </div>
+        </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+        <tr>
+            <th>GroupName </th>
+        </tr>
+        <tr>
+            <!-- <th> 
+                <input pInputText style="width: 100%;" type="text"
+                    (input)="dt.filter($event.target.value, 'name', 'startsWith')"
+
+                    class="p-column-filter"> 
+          </th> -->
+        </tr>
+        <tr>
+            <th>
+                <input pInputText style="font-size: 12px; width: 110px;" type="text"
+                    (input)="dt.filter($event.target.value, 'name', 'startsWith')" placeholder="Search by name"
+                    class="p-column-filter">
+            </th>
+         
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-group>
+        <tr>
+            <td>
+                {{group.groupName}}
+            </td>
+
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+        <tr>
+            <td colspan="6">No Groups found.</td>
+        </tr>
+    </ng-template>
+</p-table>
+<p-dialog [(visible)]="displayBasic" [style]="{width: '70vw'}" [baseZIndex]="10000">
+    <h3>Add Group</h3>
+    <br>
+    <div class="row">
+        <!-- <input type="text" [(ngModel)]="Group.groupName" name="groupName"> -->
+        <span class="p-inputgroup-addon"><i class="pi pi-user col"></i></span>
+        <!-- <input type="text" placeholder="Group Name" class="form-control"
+        [(ngModel)]="Group.groupName"> -->
+        <input type="text" #Code="ngModel" [class.is-valid]="Code.valid" [(ngModel)]="Group.groupName" required
+            minlength="3" name="Code" id="Codes" class="form-control col" placeholder="Group Name"
+            aria-describedby="helpId">
+        <!-- <small [hidden]="Code.valid || Code.untouched" id="helpId" class="text-muted" [translate]="'Tracker.messege'"></small> -->
+
+    </div>
+    <ng-template pTemplate="footer">
+        <p-button icon="pi pi-times" (click)="displayBasic=false" (click)="InsertGroup()" label="Ok"></p-button>
+    </ng-template>
+</p-dialog>
+
+
+
+
+
+<!-- 
+<p-table [columns]="cols" [value]="lstGroups" styleClass="p-datatable-responsive-demo">
+    <ng-template pTemplate="header" let-columns>
+        <tr>
+            <th *ngFor="let col of columns">
+                {{col.header}}
+            </th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData let-columns="columns">
+        <tr>
+            <td *ngFor="let col of columns">
+                <span class="p-column-title">{{col.header}}</span>
+                {{rowData[col.field]}}
+            </td>
+        </tr>
+    </ng-template>
+</p-table> -->

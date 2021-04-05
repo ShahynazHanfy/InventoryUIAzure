@@ -1,0 +1,231 @@
+<div class="container">
+    <div style="margin: 10px;">
+
+        <!-- <button id="addDepBtn"  class="btn btn-outline-primary">
+        <span class="pi pi-plus"></span></button> -->
+        <button class="btn btn-success" style="margin: 5px;" routerLink="/home/addCatalogItems">
+            <span class="pi pi-plus">Add Item</span></button>
+        <p-messages [value]="msgs"></p-messages>
+
+    </div>
+    <p-dialog [(visible)]="displayBasic" [style]="{width: '50vw'}" [baseZIndex]="1000">
+        <div class="container">
+
+            <h1>Add Item</h1>
+            <br>
+
+            <div class="row">
+                <!-- <span class="p-inputgroup-addon col-md-2"><i class="pi pi-user"></i></span> -->
+                <input type="text" style="margin: 15px;" [(ngModel)]="item.itemName" required minlength="3" name="Code"
+                    id="Codes" class="form-control col" placeholder="item Name" aria-describedby="helpId">
+            </div>
+
+            <div>
+                <p-dropdown [options]="subGroups" [(ngModel)]="item.subGroupId" placeholder="Select Group"
+                    optionLabel="subGroupName" optionValue="id" (onChange)="onChange($event)">
+                </p-dropdown>
+            </div>
+            <label for="Upload">Upload Image</label><br>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
+                </div>
+                <div class="custom-file">
+                    <input accept="image/*" (change)="onFileSelected($event.target.files)" type="file"
+                        class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
+                    <label class="custom-file-label" for="inputGroupFile01">Choose file </label>
+                </div>
+            </div>
+            <div>
+                <button (click)="InsertGroup()">Save</button>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="p-col-12 p-md-4">
+                        <div class="p-inputgroup">
+                            <span class="p-inputgroup-addon"><i class="pi pi-user"></i></span>
+                            <input type="text" pInputText placeholder="Document Name"
+                                [(ngModel)]="docItem.documentName">
+                        </div>
+                    </div>
+
+
+                    <div class="p-col-12 p-md-4">
+
+                        <br />
+                        <br />
+                        <div class="p-field col-md-3" style="margin-bottom:15px;">
+                            <div class="col-md-3">
+                                <input type="file" #file placeholder="Choose file" (change)="uploadFile(file.files)"
+                                    style="display:none;">
+                                <button type="button" class="btn btn-success" (click)="file.click()">Upload
+                                    File</button>
+                            </div>
+
+                        </div>
+                        <div>
+                            <button class="btn btn-info" style="margin-top: 20px;float: right;"
+                                (click)="Savedoctolist()">Save To List</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Document Name</th>
+                                <th>File Name</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            <tr *ngFor="let i of lstoddocproj">
+
+                                <td>{{i.documentName}}</td>
+                                <td>{{i.fileName}}</td>
+                            </tr>
+                            <tr>
+
+                            </tr>
+                            <tr *ngIf="lstoddocproj.length == 0">
+                                <td colspan="4" style="color: rgb(102, 97, 23);">No Documents found.</td>
+                            </tr>
+                        </tbody>
+
+                    </table>
+
+                    <button class="btn btn-warning" [disabled]="lstoddocproj.length == 0"
+                        (click)="SaveDocuentToDB()">Add List</button>
+                </div>
+            </div>
+        </div>
+
+        <ng-template pTemplate="footer">
+            <p-button icon="pi pi-times" (click)="displayBasic=false" label="Ok"></p-button>
+        </ng-template>
+    </p-dialog>
+
+    <div class="form-group">
+        <input type="text" class="form-control" placeholder="Search Here" [(ngModel)]="term">
+    </div>
+    <div class="clr-row" *ngFor="let itemData of data2 | filter:term">
+        <div class="clr-col-lg-12 clr-col-12">
+            <div class="card">
+                <div class="card-header">
+                    <span style="font-weight: bold; font-size: 25px;">{{itemData.itemName}}</span>
+                </div>
+                <div class="card-block">
+                    <div class="card-media row">
+                        <div class="col">
+                            <img class="img-thumbnail" src="{{getimage}}api/Items/getImage/{{itemData.photo}}"
+                                style="width: 300px;" class="card-media-image" alt="">
+                        </div>
+
+                        <div class="card-media-description col">
+                            <div>
+                                <span class="card-media-title groupandsub">
+                                    {{itemData.groupName}}
+                                </span>
+                            </div>
+
+                            <div>
+                                <span class="card-media-text groupandsub">
+                                    {{itemData.subGroupName}}
+                                </span>
+                            </div>
+                        </div>
+                        <button class="btn btn-warning" (click)="navigateToAllStatus(itemData.id)"
+                            style="width: 50px;margin: 50px; height: 50px;">All Statuses</button>
+                    </div>
+                    <div class="card-text">
+                        ...
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button class="btn btn-outline-primary bootstrap-iso" style="margin-left: 30px;"
+                        (click)="UpdateItem(itemData.id)" style="color: rgb(0, 102, 255);">Update</button>
+                    <button class="btn btn-outline-success" style="color: rgb(32, 138, 22);margin-left: 30px;"
+                        (click)="ViewItemDocs(itemData.id)">View Docs</button>
+                    <button class="btn btn-outline-warning" (click)="saveId(itemData.id)"
+                        style="color: rgb(190, 157, 10);margin-left: 30px;border-color:#c28600">Add
+                        Status</button>
+                    <button class="btn btn-outline-danger" style="color: red;margin-left: 30px;"
+                        (click)="confirmPosition('bottom',itemData.id)">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<p-dialog [(visible)]="showDocsList" [style]="{width: '40vw'}" [baseZIndex]="1000">
+
+    <h2 style="font-weight: bold;margin-left: 30%;color: peru;font-size: 30px;">All Docs</h2>
+    <br>
+    <div class="row">
+        <div class="col" style="font-size: 20px;">Doc Name</div>
+        <div class="col">Operation</div>
+    </div>
+    <br>
+    <div *ngFor="let i of itemDocs" class="row">
+        <div class="col">
+            <div>{{i.documentName}}</div>
+        </div>
+        <div class="col">
+            <button class="btn btn-success" style="display: inline;width: 100px;"
+                (click)="viewSingleDoc(i)">View</button>
+            <button class="btn btn-primary" style="display: inline;width: 100px;"
+                (click)="delDocument(i.id,i.itemId)">Delete</button>
+        </div>
+        <hr>
+
+    </div>
+
+
+    <ng-template pTemplate="footer">
+        <p-button icon="pi pi-times" (click)="showDocsList=false" label="Ok"></p-button>
+    </ng-template>
+</p-dialog>
+
+<p-dialog [(visible)]="displayBasic2" [style]="{width: '40vw'}" height="70%" [baseZIndex]="1000">
+    <h2 style="font-weight: bold;z-index: -9999;overflow: visible;">Add Status</h2>
+
+    <div class="row container">
+        <div class="p-field col-md-12" style="width: 100px;">
+            <label for="Project Type" class="labelMarginRight" style="font-weight: bold;">Employee</label><br>
+            <p-dropdown [options]="emps" [style]="{'width': '100%'}" [(ngModel)]="itemStatusEmp.employeeId"
+                placeholder="Employee Name" optionLabel="employeeName" optionValue="id">
+            </p-dropdown>
+        </div>
+        <br>
+        <div class="p-field col-md-12">
+            <label for="Status" class="labelMarginRight" style="font-weight: bold;">Status</label><br>
+            <p-dropdown [options]="StatusArr" [style]="{'width': '100%'}" [(ngModel)]="itemStatusEmp.statusId"
+                placeholder="Status Name" optionLabel="status" optionValue="id">
+            </p-dropdown>
+        </div>
+        <br>
+        <br>
+        <div class="p-field col-md-12">
+            <clr-date-container>
+                <label style="font-weight: bold;">Item Date</label>
+                <input type="date" class="form-control" name="currentDate" [ngModel]="itemStatusEmp.itemDate">
+            </clr-date-container>
+        </div>
+
+        <div class="p-field col-md-6">
+            <label for="Remarks" style="font-weight: bold;">Remarks</label><br>
+            <textarea id="Remarks" [(ngModel)]="itemStatusEmp.description" pInputTextarea required rows="3"
+                cols="45"></textarea>
+        </div>
+    </div>
+
+
+    <ng-template pTemplate="footer">
+        <p-button icon="pi pi-times" (click)="displayBasic2=false" (click)="InsertStatus()" label="Ok"></p-button>
+    </ng-template>
+</p-dialog>
+<p-confirmDialog [style]="{width: '50vw'}" key="positionDialog" [position]="position" [baseZIndex]="10000">
+</p-confirmDialog>

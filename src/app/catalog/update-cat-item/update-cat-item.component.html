@@ -1,0 +1,185 @@
+<p-toast position="top-center" key="tc"></p-toast>
+
+<!-- <p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+<p-toast></p-toast>
+<p-toast position="top-left" key="tl"></p-toast>
+<p-toast position="top-center" key="tc"></p-toast>
+<p-toast position="bottom-center" key="bc"></p-toast>
+
+<p-toast position="bottom-center" key="c" (onClose)="onReject()" [baseZIndex]="5000">
+    <ng-template let-message pTemplate="message">
+        <div class="p-flex p-flex-column" style="flex: 1">
+            <div class="p-text-center">
+                <i class="pi pi-exclamation-triangle" style="font-size: 3rem"></i>
+                <h4>{{message.summary}}</h4>
+                <p>{{message.detail}}</p>
+            </div>
+            <div class="p-grid p-fluid">
+                <div class="p-col-6">
+                    <button type="button" pButton (click)="onConfirm()" label="Yes" class="p-button-success"></button>
+                </div>
+                <div class="p-col-6">
+                    <button type="button" pButton (click)="onReject()" label="No" class="p-button-secondary"></button>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+</p-toast> -->
+<div class="container">
+    <form #frmm="ngForm" (ngSubmit)="updateItem()">
+        <h1 style="margin-bottom: 20px; font-size: 2em;color: #2674a8;">Edit Item</h1>
+        <img class="img-thumbnail" src="{{getimage}}api/Items/getImage/{{itemObj.photo}}"
+            style="width: 150px;margin-left: 40%;" class="card-media-image" alt="">
+        <div class="form-row">
+
+            <div class="col-md-6">
+                <label for="name">Item Name</label>
+                <input type="text" #Dept="ngModel" [class.is-invalid]="Dept.invalid && Dept.touched"
+                    [class.is-valid]="Dept.valid" [(ngModel)]="itemObj.itemName" name="itemName"
+                    [ngModelOptions]="{standalone: true}" required minlength="3" name="Dept" id="Dept"
+                    class="form-control" placeholder="Item Name" aria-describedby="helpId">
+            </div>
+            <br>
+            <br>
+            <div class="col-md-6">
+                <label for="code">Serial Number</label>
+                <input type="text" #Dept2="ngModel" [class.is-invalid]="Dept2.invalid && Dept2.touched"
+                    [class.is-valid]="Dept2.valid" [(ngModel)]="itemObj.serialNumber" name="serialNumber"
+                    [ngModelOptions]="{standalone: true}" required minlength="3" name="Dept2" id="Dept2"
+                    class="form-control" placeholder="Serial Number" aria-describedby="helpId">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-md-6">
+                <label for="name">Item Brand</label>
+                <input type="text" #Dept3="ngModel" [class.is-invalid]="Dept3.invalid && Dept3.touched"
+                    [class.is-valid]="Dept3.valid" [(ngModel)]="itemObj.brand" name="brand"
+                    [ngModelOptions]="{standalone: true}" required minlength="3" name="Dept3" id="Dept3"
+                    class="form-control" placeholder="Item Brand" aria-describedby="helpId">
+            </div>
+            <br>
+            <br>
+            <div class="col-md-6">
+                <label for="code">Price</label>
+                <input type="text" #Dept4="ngModel" [class.is-invalid]="Dept4.invalid && Dept4.touched"
+                    [class.is-valid]="Dept4.valid" [(ngModel)]="itemObj.price" name="price"
+                    [ngModelOptions]="{standalone: true}" required minlength="3" name="Dept4" id="Dept4"
+                    class="form-control" placeholder="Price" aria-describedby="helpId">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-md-6">
+                <label for="name">BarCode</label>
+                <input type="text" #Dept5="ngModel" [class.is-invalid]="Dept5.invalid && Dept5.touched"
+                    [class.is-valid]="Dept5.valid" [(ngModel)]="itemObj.bar_code" name="bar_code"
+                    [ngModelOptions]="{standalone: true}" required minlength="3" name="Dept5" id="Dept5"
+                    class="form-control" placeholder="Item barCode" aria-describedby="helpId">
+            </div>
+            <br>
+            <br>
+            <div class="col-md-6">
+                <label for="Dept6">Description</label>
+                <input type="text" #Dept6="ngModel" [class.is-invalid]="Dept6.invalid && Dept6.touched"
+                    [class.is-valid]="Dept6.valid" [(ngModel)]="itemObj.description" name="Dept6"
+                    [ngModelOptions]="{standalone: true}" required minlength="3" name="Dept6" id="Dept6"
+                    class="form-control" placeholder="Item Description" aria-describedby="helpId">
+            </div>
+
+        </div>
+
+        <div class="form-row" style="width: 200px;">
+
+            <label for="subGroup">SubGroup</label><br>
+            <div class="col">
+                <p-dropdown [options]="subGroup" [(ngModel)]="itemObj.subGroupId" placeholder="SubGroup Name"
+                    optionLabel="subGroupName" optionValue="id">
+                </p-dropdown>
+            </div>
+
+
+        </div>
+        <h2 style="font-weight: bold;margin-left: 30%;color: peru;font-size: 30px;">All Docs</h2>
+        <button class="btn btn-primary" style="display: inline;width: 100px;"
+        (click)="UploadDialog=true">Add Doc</button>
+        <br>
+        <div class="row">
+            <div class="col" style="font-size: 20px;">Doc Name</div>
+            <div class="col">Operation</div>
+        </div>
+        <br>
+        <div *ngFor="let i of itemDocs" class="row">
+            <div class="col">
+                <div>{{i.documentName}}</div>
+            </div>
+            <div class="col">
+                <button class="btn btn-success" style="display: inline;width: 100px;"
+                    (click)="viewSingleDoc(i)">View</button>
+                <button class="btn btn-primary" style="display: inline;width: 100px;"
+                    (click)="delDocument(i.id,i.itemId)">Delete</button>
+            </div>
+            <hr>
+
+        </div>
+        <button id="Add" class="col" style="float: right;" type="submit" [disabled]="frmm.invalid"
+            class="btn btn-primary">Update</button>
+        <br>
+    </form>
+    <p-dialog [(visible)]="UploadDialog" [style]="{width: '80vw'}" [baseZIndex]="10000">
+        <h4>Upload Documents</h4>
+        <div class="row container">
+            <div class="col">
+                <div class="p-col-12 p-md-4">
+                    <div class="p-inputgroup">
+                        <span class="p-inputgroup-addon"><i class="pi pi-user"></i></span>
+                        <input type="text" pInputText placeholder="Document Name" [(ngModel)]="docItem.documentName">
+                    </div>
+                </div>
+                <div class="p-col-12">
+                    <div class="row" style="margin-top: 30px;">
+                        <div class="col">
+                            <input type="file" #file placeholder="Choose file" (change)="uploadFile(file.files)"
+                                style="display:none;">
+                            <button type="button" class="btn btn-success" (click)="file.click()">Upload
+                                File</button>
+                        </div>
+                        <div class="col">
+                            <button class="btn btn-info" style="float: right;" (click)="Savedoctolist()">Save To
+                                List</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="col">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Document Name</th>
+                            <th>File Name</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr *ngFor="let i of lstoddocproj">
+
+                            <td>{{i.documentName}}</td>
+                            <td>{{i.fileName}}</td>
+                        </tr>
+                        <tr>
+
+                        </tr>
+                        <tr *ngIf="lstoddocproj.length == 0">
+                            <td colspan="4" style="color: rgb(102, 97, 23);">No Documents found.</td>
+                        </tr>
+                    </tbody>
+
+                </table>
+
+                <button class="btn btn-warning" style="margin-top: 7px;" [disabled]="lstoddocproj.length == 0"
+                    (click)="SaveDocuentToDB()" routerLink="/home/catalog">Add
+                    List</button>
+            </div>
+        </div>
+    </p-dialog>
+</div>
