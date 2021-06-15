@@ -13,7 +13,6 @@
             First name is required.</div>
         </div>
   
-        <!-- <input type="text" name="email" placeholder="E-mail" /> -->
         <input type="password" name="password" placeholder="Password" [(ngModel)]="password" formControlName="password" />
         <div *ngIf="loginForm.controls['password'].touched &&
         loginForm.controls['password'].invalid" class="alert-danger">
@@ -21,9 +20,7 @@
         loginForm.controls['password'].errors.required">
             password required.</div> 
         </div>
-        <!-- <input type="password" name="password2" placeholder="Retype password" /> -->
-        <!-- <input id="rememberChkBox" type="checkbox"> Remember Me -->
-        <!-- <button type="submit"   [disabled]=></button> -->
+      
         <div>
           <span>
           <button id="sub" pButton type="submit" class="btn btn-primary" name="signup_submit" 

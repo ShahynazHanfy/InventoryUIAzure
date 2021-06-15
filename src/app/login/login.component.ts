@@ -37,7 +37,7 @@ export class LoginComponent implements OnInit {
       .subscribe(
         res => {   
           console.log(res)
-          this.routee.navigate(['/home/group'])                                                                                                                                                                                             
+          this.routee.navigate(['/home/catalog'])                                                                                                                                                                                             
           localStorage.setItem("loginedUserId", res["loginedUserId"])
           localStorage.setItem("role", res["role"])
           // localStorage.setItem("clientId", res["clientId"])

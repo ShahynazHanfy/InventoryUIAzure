@@ -50,7 +50,7 @@ export class UpdateCatItemComponent implements OnInit {
     this.itemObj = {
       bar_code: '', brand: '', description: '', groupName: '', id: 0, itemName: '', photo: '', serialNumber: '', subGroupId: 0, subGroupName: '', price: 0
     }
-    console.log("itemId",this.itemId)
+    console.log("itemId", this.itemId)
     this.itemService.GetItemById(this.itemId).subscribe(e => {
       this.itemObj = e
       // this.itemService.getImage(this.itemObj.photo).subscribe(res=>{

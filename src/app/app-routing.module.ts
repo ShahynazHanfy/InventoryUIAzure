@@ -40,9 +40,6 @@ const routes: Routes = [
         {
           path: 'subGroup', component: ShowAllSubGroupsComponent
         },
-        // {
-        //   path: 'items', component: ShowAllItemsComponent
-        // },
         {
           path: 'catalog', component: CatalogDisplayComponent
         },

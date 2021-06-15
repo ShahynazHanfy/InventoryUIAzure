@@ -29,10 +29,16 @@ languageList = [
     this.role = localStorage.getItem("roles")
     console.log(this.role)
     this.items = [
+      // {
+      //   label: 'Home',
+      //   icon: 'pi pi-home',
+      //   routerLink: ['/home/dashboard'],
+      // },
       {
-        label: 'Home',
-        icon: 'pi pi-home',
-        routerLink: ['/home/dashboard'],
+        label: 'Catalog',
+        icon: 'pi pi-fw pi-power-off',
+        routerLink: ['catalog'],
+        // visible: this.role =='SuperAdmin'
       },
       {
         label: 'Groups',
@@ -71,12 +77,12 @@ languageList = [
       //   routerLink: ['items'],
       //   // visible: this.role =='SuperAdmin'
       // },
-      {
-        label: 'Catalog',
-        icon: 'pi pi-fw pi-power-off',
-        routerLink: ['catalog'],
-        // visible: this.role =='SuperAdmin'
-      },
+      // {
+      //   label: 'Catalog',
+      //   icon: 'pi pi-fw pi-power-off',
+      //   routerLink: ['catalog'],
+      //   // visible: this.role =='SuperAdmin'
+      // },
       {
         label: 'Employee',
         icon: 'pi pi-fw pi-power-off',

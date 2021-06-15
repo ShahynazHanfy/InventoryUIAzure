@@ -65,7 +65,7 @@
               <a>List of SubGroups</a>
             </h3>
           </div>
-          <a href="#!" class="pink-text" style="cursor: pointer;margin-right: 90px;">
+          <a class="pink-text" style="cursor: pointer;margin-right: 90px;" (click)="changeStatusSubGroup()">
             <h6 class="font-weight-bold">
               <mdb-icon fas icon="volleyball-ball" class="pr-2" pTooltip="Add SubGroup" tooltipPosition="top"></mdb-icon>
             </h6>
@@ -123,4 +123,26 @@
   <ng-template pTemplate="footer">
       <p-button icon="pi pi-times" (click)="displayBasic=false" (click)="InsertGroup()" label="Ok"></p-button>
   </ng-template>
+</p-dialog>
+
+<p-dialog [(visible)]="displayBasicSub" [style]="{width: '70vw'}" [baseZIndex]="10000"
+    [contentStyle]="{minHeight: '200px'}">
+    <h3>Add SubGroup</h3>
+    <br>
+    <div class="row container">
+        <span class="p-inputgroup-addon"><i class="pi pi-user col"></i></span>
+        <input type="text" #Code="ngModel" [class.is-valid]="Code.valid" [(ngModel)]="SubGroup.subGroupName" required
+            minlength="3" name="Code" id="Codes" class="form-control col-md-6" placeholder="Sub Group Name"
+            aria-describedby="helpId">
+        <div class="p-field col-md-3">
+            <!-- <label for="Project Type" class="labelMarginRight"></label><br> -->
+            <p-dropdown [options]="lstGroups" [(ngModel)]="SubGroup.groupId" placeholder="Select Group"
+                optionLabel="groupName" optionValue="id" (onChange)="onChange($event)">
+            </p-dropdown>
+        </div>
+        <br>
+    </div>
+    <ng-template pTemplate="footer">
+        <p-button icon="pi pi-times" (click)="displayBasic=false" (click)="InsertSubGroup()" label="Ok"></p-button>
+    </ng-template>
 </p-dialog>

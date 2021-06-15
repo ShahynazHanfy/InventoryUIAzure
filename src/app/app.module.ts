@@ -52,7 +52,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatMenuModule } from '@angular/material/menu';
-import { CommonModule, registerLocaleData } from '@angular/common';
+import { CommonModule, HashLocationStrategy, LocationStrategy, registerLocaleData } from '@angular/common';
 import en from '@angular/common/locales/en';
 import {VirtualScrollerModule} from 'primeng/virtualscroller';
 import {MenubarModule} from 'primeng/menubar';
@@ -213,11 +213,12 @@ import {TooltipModule} from 'primeng/tooltip';
     BrowserAnimationsModule,
     RouterModule.forRoot([]),
   ],
-  providers: [MessageService,ConfirmationService],
+  providers: [MessageService,ConfirmationService,{provide : LocationStrategy , useClass: HashLocationStrategy}],
   bootstrap: [AppComponent],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA
   ],
 })
 export class AppModule { }
+
 
